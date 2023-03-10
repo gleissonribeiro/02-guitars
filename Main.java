@@ -6,41 +6,41 @@ public class Main {
     Guitar myGuitar01 = new Guitar(
       "1234SN_number_01",
       1200,
-      "Gianini",
+      Builder.FENDER,
       "Viola modle",
-      "acoustic",
-      "oak",
-      "arpen"
+      Type.ELETRIC,
+      Wood.ALDER,
+      Wood.BRAZILIAN_ROSEWOOD
     );
 
     Guitar myGuitar02 = new Guitar(
       "1234SN_number_02",
       1400,
-      "_builder",
-      "Fender",
-      "electric",
-      "arpen",
-      "oak"
+      Builder.GIBSON,
+      "Black Olson",
+      Type.ELETRIC,
+      Wood.MAHOGANY,
+      Wood.CEDAR
     );
 
     Guitar myGuitar03 = new Guitar(
       "1234SN_number_03",
       3000,
-      "_builder",
-      "Fender",
-      "electric",
-      "arpen",
-      "oak"
+      Builder.OLSON,
+      "Black Olson",
+      Type.ACOUSTIC,
+      Wood.SITKA,
+      Wood.ALDER
     );
 
     Guitar searchGuitar = new Guitar(
       null,
       0,
-      "_builder",
-      "fender",
-      "electric",
-      "arpen",
-      "oak"
+      null,
+      null,
+      null,
+      Wood.SITKA,
+      Wood.ALDER
     );
 
     inventory.addGuitar(
@@ -72,7 +72,6 @@ public class Main {
       myGuitar03.getBackWood(),
       myGuitar03.getTopWood()
     );
-
     System.out.println("==== All guitars in inventory ====");
     System.out.println(inventory.getGuitars());
 
