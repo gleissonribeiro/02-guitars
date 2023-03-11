@@ -1,10 +1,8 @@
 public class Guitar {
 
-  private String serialNumber, model;
+  private String serialNumber;
   private double price;
-  private Type type;
-  private Builder builder;
-  private Wood backWood, topWood;
+  private GuitarSpec spec;
 
   public Guitar(
     String serialNumber,
@@ -15,13 +13,9 @@ public class Guitar {
     Wood backWood,
     Wood topWood
   ) {
+    this.spec = new GuitarSpec(builder, model, type, backWood, topWood);
     this.serialNumber = serialNumber;
     this.price = price;
-    this.builder = builder;
-    this.model = model;
-    this.type = type;
-    this.backWood = backWood;
-    this.topWood = topWood;
   }
 
   public String getSerialNumber() {
@@ -36,42 +30,17 @@ public class Guitar {
     this.price = newPrice;
   }
 
-  public Builder getBuilder() {
-    return this.builder;
+  public GuitarSpec getSpec() {
+    return this.spec;
   }
 
-  public String getModel() {
-    return this.model;
-  }
-
-  public Type getType() {
-    return this.type;
-  }
-
-  public Wood getBackWood() {
-    return this.backWood;
-  }
-
-  public Wood getTopWood() {
-    return this.topWood;
-  }
-
-  @Override
   public String toString() {
     return (
       this.getSerialNumber() +
       ", " +
       this.getPrice() +
       ", " +
-      this.getBuilder() +
-      ", " +
-      this.getModel() +
-      ", " +
-      this.getType() +
-      ", " +
-      this.getBackWood() +
-      ", " +
-      this.getTopWood() +
+      this.getSpec().toString() +
       "\n"
     );
   }

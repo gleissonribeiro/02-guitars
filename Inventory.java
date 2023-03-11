@@ -2,42 +2,22 @@ import java.util.ArrayList;
 
 public class Inventory {
 
-  private ArrayList<Guitar> guitars;
+  private ArrayList<Guitar> guitars = new ArrayList<>();
 
-  public Inventory() {
-    this.guitars = new ArrayList<Guitar>();
+  public Inventory() {}
+
+  public Inventory(ArrayList<Guitar> guitars) {
+    this.guitars = guitars;
   }
 
   public ArrayList<Guitar> getGuitars() {
     return this.guitars;
   }
 
-  // Add guitar to inventory
-  public void addGuitar(
-    String serialNumber,
-    double price,
-    Builder builder,
-    String model,
-    Type type,
-    Wood backWood,
-    Wood topWood
-  ) {
-    // Create guitar
-    Guitar guitar = new Guitar(
-      serialNumber,
-      price,
-      builder,
-      model,
-      type,
-      backWood,
-      topWood
-    );
-
-    // Add guitar to inventory
-    this.guitars.add(guitar);
+  public void addGuitar(Guitar guitar) {
+    guitars.add(guitar);
   }
 
-  // Get guitar from serial number
   public Guitar getGuitar(String serialNumber) {
     for (Guitar guitar : this.guitars) {
       if (guitar.getSerialNumber() == serialNumber) return guitar;
@@ -45,101 +25,116 @@ public class Inventory {
     return null;
   }
 
-  // Search a guitar in the invertory
-  public ArrayList<Guitar> search(Guitar searchGuitar) {
+  public ArrayList<Guitar> search(GuitarSpec searchSpec) {
     ArrayList<Guitar> matchingGuitars = new ArrayList<Guitar>();
 
-    for (Guitar guitar : this.guitars) {
-      // Builder
-      if (!builderIsSatisfied(guitar, searchGuitar)) continue;
+    for (Guitar guitar : guitars) {
+      GuitarSpec guitarSpec = guitar.getSpec();
+      if (!builderIsSatisfied(guitarSpec, searchSpec)) continue;
 
-      // Model
-      if (!modelIsSatisfied(guitar, searchGuitar)) continue;
+      if (!modelIsSatisfied(guitarSpec, searchSpec)) continue;
 
-      // Type
-      if (!typeIsSatisfied(guitar, searchGuitar)) continue;
+      if (!typeIsSatisfied(guitarSpec, searchSpec)) continue;
 
-      // BackWood
-      if (!backWoodIsSatisfied(guitar, searchGuitar)) continue;
+      if (!backWoodIsSatisfied(guitarSpec, searchSpec)) continue;
 
-      // TopWood
-      if (!topWoodIsSatisfied(guitar, searchGuitar)) continue;
+      if (!topWoodIsSatisfied(guitarSpec, searchSpec)) continue;
 
       matchingGuitars.add(guitar);
     }
     return matchingGuitars;
   }
 
-  private boolean builderIsSatisfied(Guitar guitar, Guitar searchGuitar) {
+  private boolean builderIsSatisfied(
+    GuitarSpec guitarSpec,
+    GuitarSpec searchSpec
+  ) {
     return (
-      !builderIsSpecific(searchGuitar) || buildersMatch(guitar, searchGuitar)
+      !builderIsSpecific(searchSpec) || buildersMatch(guitarSpec, searchSpec)
     );
   }
 
-  private boolean builderIsSpecific(Guitar guitar) {
-    Builder builder = guitar.getBuilder();
+  private boolean builderIsSpecific(GuitarSpec searchSpec) {
+    Builder builder = searchSpec.getBuilder();
     return builder != Builder.ANY && builder != null;
   }
 
-  private boolean buildersMatch(Guitar guitar, Guitar searchGuitar) {
-    return guitar.getBuilder() == searchGuitar.getBuilder();
+  private boolean buildersMatch(GuitarSpec guitarSpec, GuitarSpec searchSpec) {
+    return guitarSpec.getBuilder() == searchSpec.getBuilder();
   }
 
-  private boolean modelIsSatisfied(Guitar guitar, Guitar searchGuitar) {
-    return !modelIsSpecific(searchGuitar) || modelsMatch(guitar, searchGuitar);
+  private boolean modelIsSatisfied(
+    GuitarSpec guitarSpec,
+    GuitarSpec searchSpec
+  ) {
+    return !modelIsSpecific(searchSpec) || modelsMatch(guitarSpec, searchSpec);
   }
 
-  private boolean modelIsSpecific(Guitar guitar) {
-    String guitarModel = guitar.getModel();
+  private boolean modelIsSpecific(GuitarSpec searchSpec) {
+    String guitarModel = searchSpec.getModel();
     return (guitarModel != null && !guitarModel.equals(""));
   }
 
-  private boolean modelsMatch(Guitar guitar, Guitar searchGuitar) {
-    String guitarModel = guitar.getModel().toLowerCase();
-    String searchGuitarModel = searchGuitar.getModel().toLowerCase();
-    return guitarModel.equals(searchGuitarModel);
+  private boolean modelsMatch(GuitarSpec guitarSpec, GuitarSpec searchSpec) {
+    String guitarSpecModel = guitarSpec.getModel().toLowerCase();
+    String searchSpecModel = searchSpec.getModel().toLowerCase();
+    return guitarSpecModel.equals(searchSpecModel);
   }
 
-  private boolean typeIsSatisfied(Guitar guitar, Guitar searchGuitar) {
-    return !typeIsSpecific(searchGuitar) || typesMatch(guitar, searchGuitar);
+  private boolean typeIsSatisfied(
+    GuitarSpec guitarSpec,
+    GuitarSpec searchSpec
+  ) {
+    return !typeIsSpecific(searchSpec) || typesMatch(guitarSpec, searchSpec);
   }
 
-  private boolean typeIsSpecific(Guitar guitar) {
-    Type type = guitar.getType();
+  private boolean typeIsSpecific(GuitarSpec searchSpec) {
+    Type type = searchSpec.getType();
     return type != Type.ANY && type != null;
   }
 
-  private boolean typesMatch(Guitar guitar, Guitar searchGuitar) {
-    return guitar.getType() == searchGuitar.getType();
+  private boolean typesMatch(GuitarSpec guitarSpec, GuitarSpec searchSpec) {
+    return guitarSpec.getType() == searchSpec.getType();
   }
 
-  private boolean backWoodIsSatisfied(Guitar guitar, Guitar searchGuitar) {
+  private boolean backWoodIsSatisfied(
+    GuitarSpec guitarSpec,
+    GuitarSpec searchSpec
+  ) {
     return (
-      !backWoodIsSpecific(searchGuitar) || backWoodsMatch(guitar, searchGuitar)
+      !backWoodIsSpecific(searchSpec) || backWoodsMatch(guitarSpec, searchSpec)
     );
   }
 
-  private boolean backWoodIsSpecific(Guitar guitar) {
-    Wood backWood = guitar.getBackWood();
+  private boolean backWoodIsSpecific(GuitarSpec searchSpec) {
+    Wood backWood = searchSpec.getBackWood();
     return backWood != Wood.ANY && backWood != null;
   }
 
-  private boolean backWoodsMatch(Guitar guitar, Guitar searchGuitar) {
-    return guitar.getBackWood() == searchGuitar.getBackWood();
+  private boolean backWoodsMatch(GuitarSpec guitarSpec, GuitarSpec searchSpec) {
+    return guitarSpec.getBackWood() == searchSpec.getBackWood();
   }
 
-  private boolean topWoodIsSatisfied(Guitar guitar, Guitar searchGuitar) {
+  private boolean topWoodIsSatisfied(
+    GuitarSpec guitarSpec,
+    GuitarSpec searchSpec
+  ) {
     return (
-      !topWoodIsSpecific(searchGuitar) || topWoodsMatch(guitar, searchGuitar)
+      !topWoodIsSpecific(searchSpec) || topWoodsMatch(guitarSpec, searchSpec)
     );
   }
 
-  private boolean topWoodIsSpecific(Guitar guitar) {
-    Wood topWood = guitar.getBackWood();
+  private boolean topWoodIsSpecific(GuitarSpec searchSpec) {
+    Wood topWood = searchSpec.getTopWood();
     return topWood != Wood.ANY && topWood != null;
   }
 
-  private boolean topWoodsMatch(Guitar guitar, Guitar searchGuitar) {
-    return guitar.getTopWood() == searchGuitar.getTopWood();
+  private boolean topWoodsMatch(GuitarSpec guitarSpec, GuitarSpec searchSpec) {
+    return guitarSpec.getTopWood() == searchSpec.getTopWood();
+  }
+
+  @Override
+  public String toString() {
+    return "Inventory [guitars=" + guitars + "]";
   }
 }

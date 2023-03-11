@@ -33,52 +33,36 @@ public class Main {
       Wood.ALDER
     );
 
-    Guitar searchGuitar = new Guitar(
-      null,
-      0,
-      null,
-      null,
-      null,
-      Wood.SITKA,
+    Guitar myGuitar04 = new Guitar(
+      "1234SN_number_04",
+      5000,
+      Builder.FENDER,
+      "Black Olson",
+      Type.ELETRIC,
+      Wood.COCOBOLO,
       Wood.ALDER
     );
 
-    inventory.addGuitar(
-      myGuitar01.getSerialNumber(),
-      myGuitar01.getPrice(),
-      myGuitar01.getBuilder(),
-      myGuitar01.getModel(),
-      myGuitar01.getType(),
-      myGuitar01.getBackWood(),
-      myGuitar01.getTopWood()
+    inventory.addGuitar(myGuitar01);
+    inventory.addGuitar(myGuitar02);
+    inventory.addGuitar(myGuitar03);
+    inventory.addGuitar(myGuitar04);
+
+    GuitarSpec searchGuitarSpec = new GuitarSpec(
+      null,
+      null,
+      null,
+      null,
+      Wood.ALDER
     );
 
-    inventory.addGuitar(
-      myGuitar02.getSerialNumber(),
-      myGuitar02.getPrice(),
-      myGuitar02.getBuilder(),
-      myGuitar02.getModel(),
-      myGuitar02.getType(),
-      myGuitar02.getBackWood(),
-      myGuitar02.getTopWood()
-    );
-
-    inventory.addGuitar(
-      myGuitar03.getSerialNumber(),
-      myGuitar03.getPrice(),
-      myGuitar03.getBuilder(),
-      myGuitar03.getModel(),
-      myGuitar03.getType(),
-      myGuitar03.getBackWood(),
-      myGuitar03.getTopWood()
-    );
     System.out.println("==== All guitars in inventory ====");
     System.out.println(inventory.getGuitars());
 
-    System.out.println("==== Searching guitar ====");
-    System.out.println(searchGuitar);
+    System.out.println("==== Searching guitar spec ====");
+    System.out.println(searchGuitarSpec);
 
     System.out.println("==== Results of search ====");
-    System.out.println(inventory.search(searchGuitar));
+    System.out.println(inventory.search(searchGuitarSpec));
   }
 }
